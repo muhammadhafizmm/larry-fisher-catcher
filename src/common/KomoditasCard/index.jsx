@@ -10,7 +10,8 @@ import "./style.scss";
 function KomoditasCard({ product }) {
   // if all data undefined or null
   if (Object.values(product).every((val) => val === undefined || val === null))
-    return;
+    return null;
+
   return (
     <div className="komoditas-card">
       <div className="komoditas-content">
