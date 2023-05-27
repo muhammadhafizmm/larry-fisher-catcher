@@ -3,11 +3,12 @@
 .komoditas-card {
   display: flex;
   flex-direction: column;
-  padding: map-get($spacing, small);
-  background-color: map-get($color, light);
-  border-radius: map-get($spacing, base);
-  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
   gap: map-get($spacing, extratiny);
+  padding: map-get($spacing, small);
+  border-radius: map-get($spacing, base);
+  background-color: map-get($color, light);
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: map-get($spacing, $key: small);
 
   .komoditas-content {
     display: flex;
@@ -26,11 +27,11 @@
         display: flex;
         align-items: center;
         flex-direction: row;
-        height: map-get($text-size, caption);
+        flex-grow: 1;
         gap: 0 map-get($spacing, tiny);
         .devider {
           width: 1px;
-          height: 100%;
+          height: map-get($spacing, xsmall);
           background-color: black;
         }
         .additional-info {
@@ -56,14 +57,51 @@
     }
 
     .komoditas-price {
-        .komoditas-number-price {
-            font-size: map-get($text-size, title);
-            font-weight: 700;
-        }
-        .komoditas-measurment {
-            color: map-get($color, dark-grey);
-            font-size: map-get($text-size, caption);
-        }
+      .komoditas-number-price {
+        font-size: map-get($text-size, title);
+        font-weight: 700;
+      }
+      .komoditas-measurment {
+        color: map-get($color, dark-grey);
+        font-size: map-get($text-size, caption);
+      }
+    }
+
+    @media (max-width: 390px){
+      .komoditas-additional-info .additional-info {
+          font-size: map-get($text-size, overline) !important;
+      }
+      .created span {
+        font-size: map-get($text-size, overline);
+      }
+      .komoditas-size span {
+        font-size: map-get($text-size, caption);
+      }
     }
   }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: calc(-1 * map-get($default-width, max-mobile)) 0;
+  }
+  100% {
+    background-position: map-get($default-width, max-mobile) 0;
+  }
+}
+
+.komoditas-skeleton {
+  width: 100%;
+  height: 110px;
+  border-radius: 20px;
+  margin-bottom: map-get($spacing, small);
+
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: shimmer;
+  animation-timing-function: linear;
+  background: darkgray;
+  background: linear-gradient(to right, #ede9e9 10%, #ded5d5 30%, #ede9e9 50%);
+  position: relative;
 }
