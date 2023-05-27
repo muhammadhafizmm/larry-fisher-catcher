@@ -8,12 +8,19 @@ import {
 import "./style.scss";
 
 function KomoditasCard({ product }) {
+  // if all data undefined or null
+  if (Object.values(product).every((val) => val === undefined || val === null))
+    return;
   return (
     <div className="komoditas-card">
       <div className="komoditas-content">
         <div className="komoditas-info">
           <div className="komoditas-title">
-            <span>{toTitleCase(product.komoditas)}</span>
+            <span>
+              {product.komoditas
+                ? toTitleCase(product.komoditas)
+                : "Tidak Diketahui"}
+            </span>
             <FishLogo />
           </div>
           <div className="komoditas-additional-info">
@@ -32,18 +39,21 @@ function KomoditasCard({ product }) {
         </div>
         <div className="created">
           <span>
-            Dibuat: {formatStringDate(product.tgl_parsed, "DD MMM YYYY")}
+            Dibuat:{" "}
+            {product.tgl_parsed
+              ? formatStringDate(product.tgl_parsed, "DD MMM YYYY")
+              : "Tidak Diketahui"}
           </span>
         </div>
       </div>
       <div className="komoditas-content">
         <div className="komoditas-size">
           <ScallerLogo />
-          <span>{product.size} kg</span>
+          <span>{product.size || "Tidak Diketahui"} kg</span>
         </div>
         <div className="komoditas-price">
           <span className="komoditas-number-price">
-            {toIDRCurrency(product.price)}
+            {product.price ? toIDRCurrency(product.price) : "Tidak Diketahui"}
           </span>
           <span className="komoditas-measurment">/kg</span>
         </div>

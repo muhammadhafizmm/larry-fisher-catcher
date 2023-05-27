@@ -41,7 +41,11 @@ function KomoditasList() {
     function handleOnScroll() {
       const { scrollTop, clientHeight, scrollHeight } =
         document.documentElement;
-      if (scrollTop + clientHeight >= scrollHeight - 250 && !loading) {
+      if (
+        scrollTop + clientHeight >= scrollHeight - 300 &&
+        !isReachEnd &&
+        !loading
+      ) {
         setLoading(true);
         setQuery((prev) => {
           return {
@@ -53,7 +57,7 @@ function KomoditasList() {
     }
     window.addEventListener("scroll", handleOnScroll);
     return () => window.removeEventListener("scroll", handleOnScroll);
-  }, [loading]);
+  }, [isReachEnd, loading]);
 
   return (
     <div className="komoditas-container">
