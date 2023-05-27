@@ -1,5 +1,5 @@
 import "./style.scss";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import KomoditasCard, {
   KomoditasCardSkeleton,
@@ -17,18 +17,6 @@ function KomoditasList() {
   });
   const [isReachEnd, setIsReachEnd] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  function handleOnScroll() {
-    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-    if (scrollTop + clientHeight >= scrollHeight && !loading) {
-      setQuery((prev) => {
-        return {
-          ...prev,
-          offset: prev.offset + prev.limit,
-        };
-      });
-    }
-  }
 
   useEffect(() => {
     setLoading(true);
@@ -50,9 +38,22 @@ function KomoditasList() {
   }, [query, isReachEnd]);
 
   useEffect(() => {
+    function handleOnScroll() {
+      const { scrollTop, clientHeight, scrollHeight } =
+        document.documentElement;
+      if (scrollTop + clientHeight >= scrollHeight - 250 && !loading) {
+        setLoading(true);
+        setQuery((prev) => {
+          return {
+            ...prev,
+            offset: prev.offset + prev.limit,
+          };
+        });
+      } else return;
+    }
     window.addEventListener("scroll", handleOnScroll);
     return () => window.removeEventListener("scroll", handleOnScroll);
-  }, []);
+  }, [loading]);
 
   return (
     <div className="komoditas-container">
