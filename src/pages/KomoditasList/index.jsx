@@ -6,6 +6,9 @@ function KomoditasList() {
   return (
     <div className="komoditas-container">
       <Search />
+      <div className="content">
+        <KomoditasCard/>
+      </div>
     </div>
   );
 }

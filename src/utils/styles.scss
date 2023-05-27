@@ -1,0 +1,38 @@
+$spacing: (
+  none: 0px,
+  extratiny: 4px,
+  tiny: 8px,
+  xsmall: 12px,
+  small: 16px,
+  base: 24px,
+  large: 48px,
+  xlarge: 64px,
+);
+
+$text-size: (
+  h1: 96px,
+  h2: 60px,
+  h3: 48px,
+  h4: 34px,
+  h5: 24px,
+  h6: 20px,
+  title: 16px,
+  body: 14px,
+  caption: 12px,
+  overline: 10px,
+  tiny: 9px,
+  extratiny: 8px,
+);
+
+$default-width: (
+  max-mobile: 540px,
+);
+
+$color: (
+  primary: #4e9992,
+  light: #ffffff,
+  light-grey: #eaeaea,
+  dark-grey: #8f8f8f,
+  light-active: #f9f9f9,
+  gray: #b6b6b6,
+);

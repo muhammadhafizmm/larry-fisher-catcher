@@ -1,0 +1,69 @@
+@import "../../utils/styles.scss";
+
+.komoditas-card {
+  display: flex;
+  flex-direction: column;
+  padding: map-get($spacing, small);
+  background-color: map-get($color, light);
+  border-radius: map-get($spacing, base);
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
+  gap: map-get($spacing, extratiny);
+
+  .komoditas-content {
+    display: flex;
+    justify-content: space-between;
+    .komoditas-info {
+      .komoditas-title {
+        display: flex;
+        align-items: center;
+        span {
+          font-weight: bold;
+          font-size: map-get($text-size, h5);
+          margin-right: map-get($spacing, extratiny);
+        }
+      }
+      .komoditas-additional-info {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        height: map-get($text-size, caption);
+        gap: 0 map-get($spacing, tiny);
+        .devider {
+          width: 1px;
+          height: 100%;
+          background-color: black;
+        }
+        .additional-info {
+          font-size: map-get($text-size, caption);
+        }
+      }
+    }
+
+    .created span {
+      font-size: map-get($text-size, caption);
+      color: map-get($color, dark-grey);
+    }
+
+    .komoditas-size {
+      display: flex;
+      align-items: center;
+      gap: map-get($spacing, extratiny);
+      span {
+        color: map-get($color, dark-grey);
+        font-size: map-get($text-size, body);
+        font-weight: 500;
+      }
+    }
+
+    .komoditas-price {
+        .komoditas-number-price {
+            font-size: map-get($text-size, title);
+            font-weight: 700;
+        }
+        .komoditas-measurment {
+            color: map-get($color, dark-grey);
+            font-size: map-get($text-size, caption);
+        }
+    }
+  }
+}
