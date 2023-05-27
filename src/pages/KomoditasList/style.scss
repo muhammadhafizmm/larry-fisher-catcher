@@ -1,0 +1,41 @@
+@import "../../utils/styles.scss";
+
+.komoditas-container {
+  width: 100%;
+  position: relative;
+  .content {
+    padding: 24px;
+    padding-top: calc(map-get($spacing, xlarge) * 1.75);
+  }
+
+  .add-komoditas-container {
+    z-index: 3;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    .button-wrapper {
+      width: 100%;
+      position: relative;
+      max-width: map-get($default-width, max-mobile);
+      .button {
+        position: absolute;
+        bottom: map-get($spacing, large);
+        right: calc(map-get($spacing, small) * 2);
+        display: flex;
+        align-items: center;
+        width: fit-content;
+        gap: map-get($spacing, tiny);
+        background-color: map-get($color, primary);
+        padding: map-get($spacing, xsmall) 20px;
+        border-radius: 30px;
+        span {
+          color: map-get($color, light);
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}

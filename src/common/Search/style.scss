@@ -1,0 +1,40 @@
+@import "../../utils/styles.scss";
+
+.main-header {
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  background-color: map-get($color, light);
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.05);
+  .header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: map-get($spacing, small);
+    max-width: map-get($default-width, max-mobile);
+    padding: map-get($spacing, base) map-get($spacing, small);
+
+    .search-bar.disable {
+      flex: 1;
+    }
+
+    input {
+      width: 100%;
+      border-color: transparent;
+      border-radius: map-get($spacing, small);
+      padding: map-get($spacing, tiny) map-get($spacing, small);
+      background-color: map-get($color, light-grey);
+      &::placeholder {
+        position: relative;
+        top: -1px;
+        font-size: 12px;
+        font-weight: bold;
+        color: map-get($color, dark-grey);
+      }
+    }
+  }
+}
