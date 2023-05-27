@@ -1,5 +1,5 @@
 import "./style.scss";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import KomoditasCard, {
   KomoditasCardSkeleton,
@@ -8,6 +8,7 @@ import Search from "../../common/Search";
 
 import { ReactComponent as PlusIcon } from "../../assets/svgs/plus.svg";
 import { getProductList } from "../../service";
+import { Outlet } from "react-router-dom";
 
 function KomoditasList() {
   const [producs, setProducts] = useState([]);
@@ -82,6 +83,7 @@ function KomoditasList() {
           </div>
         </div>
       </div>
+      <Outlet />
     </div>
   );
 }

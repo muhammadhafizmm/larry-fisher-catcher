@@ -1,13 +1,16 @@
-import React from 'react';
-import App from './App';
-import './index.scss';
+import React from "react";
+import App from "./App";
+import "./index.scss";
 import * as ReactDOM from "react-dom";
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
 
 const element = (
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );
 

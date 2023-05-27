@@ -18,20 +18,35 @@
     max-width: map-get($default-width, max-mobile);
     padding: map-get($spacing, base) map-get($spacing, small);
 
+    .filter {
+      width: 34px;
+      padding: 0 map-get($spacing, tiny);
+      div {
+        width: inherit;
+      }
+    }
+
     .search-bar.disable {
       flex: 1;
+      width: 100%;
     }
 
     input {
       width: 100%;
+      flex-grow: 1;
+      font-size: map-get($text-size, caption);
       border-color: transparent;
       border-radius: map-get($spacing, small);
       padding: map-get($spacing, tiny) map-get($spacing, small);
       background-color: map-get($color, light-grey);
+
+      &:focus {
+        font-weight: 500;
+        background-color: map-get($color, light);
+        outline-color: map-get($color, primary);
+      }
+
       &::placeholder {
-        position: relative;
-        top: -1px;
-        font-size: 12px;
         font-weight: bold;
         color: map-get($color, dark-grey);
       }
