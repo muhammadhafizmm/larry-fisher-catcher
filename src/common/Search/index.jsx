@@ -1,5 +1,5 @@
-import { memo, useEffect, useRef, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 
 import "./style.scss";
 import { ReactComponent as FilterIcon } from "../../assets/svgs/filter.svg";
@@ -11,7 +11,10 @@ function Search() {
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [param] = useSearchParams();
+  const querySearch = useMemo(() => param.get("q"), [param]);
+
+  const [searchQuery, setSearchQuery] = useState(querySearch || "");
   const editableInput = useRef(null);
 
   function handleOnClick() {
@@ -24,7 +27,7 @@ function Search() {
   }
 
   function handleClearInput() {
-    setSearchQuery("")
+    setSearchQuery("");
   }
 
   function handleOnSubmitWithEnter(event) {
@@ -56,6 +59,10 @@ function Search() {
       editableInput.current.focus();
     }
   }, [editableInput, active]);
+
+  useEffect(() => {
+    setSearchQuery(querySearch);
+  }, [querySearch]);
 
   return (
     <div className="main-header">

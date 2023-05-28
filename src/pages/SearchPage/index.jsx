@@ -1,20 +1,33 @@
 import "./style.scss";
+import { useNavigate } from "react-router-dom";
 
 function SearchPage() {
+  const navigate = useNavigate();
+  function handleSelectHistory(value) {
+    navigate({
+      pathname: "/",
+      search: `?q=${value}`,
+    });
+  }
+
   return (
     <div className="search-page-content">
-      <div className="search-page-history">
-        <span className="history-title">Riwayat Pencarian</span>
-        <div className="history-item">
-          <span className="history-bullet">Nila</span>
-          <span className="history-bullet">Rendang</span>
-          <span className="history-bullet">Sapi</span>
-          <span className="history-bullet">Kura-kura</span>
-          <span className="history-bullet">Kudanil</span>
-          <span className="history-bullet">Kucing</span>
-          <span className="history-bullet">Anjing Laut</span>
+      {localStorage.getItem("history-data") && (
+        <div className="search-page-history">
+          <span className="history-title">Riwayat Pencarian</span>
+          <div className="history-item">
+            {Array.isArray(JSON.parse(localStorage.getItem("history-data"))) &&
+              JSON.parse(localStorage.getItem("history-data")).map((value) => (
+                <span
+                  className="history-bullet"
+                  onClick={() => handleSelectHistory(value)}
+                >
+                  {value}
+                </span>
+              ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

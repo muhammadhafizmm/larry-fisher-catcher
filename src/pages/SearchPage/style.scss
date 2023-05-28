@@ -25,6 +25,7 @@
       margin-top: map-get($spacing, tiny);
       gap: map-get($spacing, tiny);
       .history-bullet {
+        cursor: pointer;
         border-radius: 20px;
         background-color: map-get($color, accent1);
         color: map-get($color, accent2);

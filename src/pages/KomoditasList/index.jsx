@@ -6,9 +6,10 @@ import KomoditasCard, {
 } from "../../common/KomoditasCard";
 import Search from "../../common/Search";
 
-import { ReactComponent as PlusIcon } from "../../assets/svgs/plus.svg";
 import { getProductList } from "../../service";
+import { ReactComponent as PlusIcon } from "../../assets/svgs/plus.svg";
 
+import { addHistoryDataToStorage } from "./helper";
 import { Outlet, useSearchParams, useLocation } from "react-router-dom";
 
 function KomoditasList() {
@@ -36,6 +37,8 @@ function KomoditasList() {
           offset: 0,
           search: { komoditas: querySearch.toUpperCase() },
         }));
+        // register query search to history data to history data
+        addHistoryDataToStorage(querySearch);
         setIsReachEnd(false);
       } else {
         setQuery((prev) => ({
