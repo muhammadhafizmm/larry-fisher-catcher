@@ -1,25 +1,24 @@
-import React, { useEffect } from 'react';
-import logo from './logo.svg';
-import './App.scss';
-import { getList } from './service';
+import React from "react";
+import Background from "./common/Background";
+import KomoditasList from "./pages/KomoditasList";
+
+import { Routes, Route } from "react-router-dom";
+
+import "./App.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
-  useEffect(() => {
-    getList()
-  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Larry belajar menangkap ikan.
-        </p>
-        <p
-          className="App-link"
-        >
-          Nantikan kegiatan larry.
-        </p>
-      </header>
+    <div className="app">
+      <div className="main">
+        <Routes>
+          <Route path="/" element={<KomoditasList />}>
+            <Route path="search" element={<SearchPage />} />
+          </Route>
+        </Routes>
+      </div>
+      <Background />
     </div>
   );
 }

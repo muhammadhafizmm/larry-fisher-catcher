@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "json-reactform": "^0.1.14",
+    "moment": "^2.29.4",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
+    "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
     "sass": "^1.62.1",
     "stein-js-client": "^0.0.2",
@@ -27,11 +29,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
   },
   "browserslist": {
     "production": [

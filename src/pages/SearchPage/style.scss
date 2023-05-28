@@ -1,0 +1,37 @@
+@import "../../utils/styles.scss";
+.search-page-content {
+  left: 0;
+  top: 0;
+  z-index: 5;
+  width: 100vw;
+  height: 100%;
+  position: fixed;
+  background-color: map-get($color, light);
+  display: flex;
+  justify-content: center;
+
+  .search-page-history {
+    width: 100%;
+    max-width: map-get($default-width, max-mobile);
+    padding: map-get($spacing, base);
+    padding-top: calc(map-get($spacing, xlarge) * 1.75);
+    .history-title {
+      font-size: map-get($text-size, title);
+      font-weight: 700;
+    }
+    .history-item {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: map-get($spacing, tiny);
+      gap: map-get($spacing, tiny);
+      .history-bullet {
+        cursor: pointer;
+        border-radius: 20px;
+        background-color: map-get($color, accent1);
+        color: map-get($color, accent2);
+        font-size: map-get($text-size, body);
+        padding: map-get($spacing, extratiny) map-get($spacing, xsmall);
+      }
+    }
+  }
+}
