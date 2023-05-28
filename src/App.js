@@ -7,6 +7,7 @@ import { Routes, Route } from "react-router-dom";
 import "./App.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SearchPage from "./pages/SearchPage";
+import FilterPage from "./pages/FilterPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<KomoditasList />}>
             <Route path="search" element={<SearchPage />} />
+            <Route path="filter" element={<FilterPage />} />
           </Route>
         </Routes>
       </div>

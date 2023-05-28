@@ -20,7 +20,21 @@
 
     .filter {
       width: 34px;
+      cursor: pointer;
       padding: 0 map-get($spacing, tiny);
+      position: relative;
+
+      .filter-apply {
+        display: block;
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        top: 5px;
+        right: 5px;
+        border-radius: 5px;
+        background-color: map-get($color, primary);
+      }
+
       div {
         width: inherit;
       }
