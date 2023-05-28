@@ -20,6 +20,7 @@
 
     .filter {
       width: 34px;
+      cursor: pointer;
       padding: 0 map-get($spacing, tiny);
       div {
         width: inherit;

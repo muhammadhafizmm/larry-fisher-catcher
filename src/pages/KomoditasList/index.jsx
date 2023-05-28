@@ -49,7 +49,7 @@ function KomoditasList() {
         setIsReachEnd(false);
       }
     }
-  }, [querySearch, location]);
+  }, [querySearch]);
 
   useEffect(() => {
     setLoading(true);

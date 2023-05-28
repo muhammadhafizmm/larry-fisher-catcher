@@ -23,11 +23,18 @@ function Search() {
 
   function handleBack() {
     navigate("/");
-    setSearchQuery("");
   }
 
   function handleClearInput() {
     setSearchQuery("");
+    navigate({
+      pathname: "/",
+      search: `?q=`,
+    });
+  }
+
+  function handleOpenFilter() {
+    navigate("/filter");
   }
 
   function handleOnSubmitWithEnter(event) {
@@ -40,13 +47,15 @@ function Search() {
   }
 
   useEffect(() => {
-    if (location.pathname === "/search") {
+    if (location.pathname === "/search" || location.pathname === "/filter") {
       window.scrollTo({
         top: 0,
         behavior: "smooth",
       });
       document.body.style.overflow = "hidden";
-      setActive(true);
+      if (location.pathname === "/search") {
+        setActive(true);
+      }
     } else {
       document.body.style.overflow = "unset";
       setActive(false);
@@ -61,7 +70,9 @@ function Search() {
   }, [editableInput, active]);
 
   useEffect(() => {
-    setSearchQuery(querySearch);
+    if (querySearch) {
+      setSearchQuery(querySearch);
+    }
   }, [querySearch]);
 
   return (
@@ -69,7 +80,9 @@ function Search() {
       <div className="header">
         <div className="filter">
           {!active ? (
-            <FilterIcon />
+            <div onClick={handleOpenFilter}>
+              <FilterIcon />
+            </div>
           ) : (
             <div onClick={handleBack}>
               <ArrowBackIcon />

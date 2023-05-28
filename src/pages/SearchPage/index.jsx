@@ -1,3 +1,4 @@
+import Pill from "../../common/Pill";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
 
@@ -17,14 +18,16 @@ function SearchPage() {
           <span className="history-title">Riwayat Pencarian</span>
           <div className="history-item">
             {Array.isArray(JSON.parse(localStorage.getItem("history-data"))) &&
-              JSON.parse(localStorage.getItem("history-data")).map((value) => (
-                <span
-                  className="history-bullet"
-                  onClick={() => handleSelectHistory(value)}
-                >
-                  {value}
-                </span>
-              ))}
+              JSON.parse(localStorage.getItem("history-data")).map(
+                (value, idx) => (
+                  <Pill
+                    key={`history_${value}_${idx}`}
+                    handleOnClick={() => handleSelectHistory(value)}
+                  >
+                    {value}
+                  </Pill>
+                )
+              )}
           </div>
         </div>
       )}

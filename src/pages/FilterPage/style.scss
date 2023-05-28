@@ -1,0 +1,63 @@
+@import "../../utils/styles.scss";
+.filter-page-wrapper {
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  .filter-page-overlay {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transition: background-color 0.2s ease-in;
+    &.active {
+      background-color: rgba($color: #000000, $alpha: 0.3);
+    }
+  }
+
+  .filter-page-container {
+    z-index: 1;
+    width: 100%;
+    height: fit-content;
+    max-width: map-get($default-width, max-mobile);
+    .filter-page-content {
+      margin-bottom: map-get($spacing, base);
+      .filter-title {
+        font-weight: 700;
+        font-size: map-get($text-size, h6);
+      }
+      .filter-item {
+        margin-top: map-get($spacing, xsmall);
+        .filter-label-wrapper {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: map-get($spacing, tiny);
+          .filter-label {
+            font-weight: 700;
+            font-size: map-get($text-size, title);
+            color: map-get($color, dark-grey);
+          }
+          .filter-more {
+            cursor: pointer;
+            font-weight: 700;
+            font-size: map-get($text-size, body);
+            color: map-get($color, primary);
+          }
+        }
+
+        .filter-pill-wrapper {
+          display: flex;
+          flex-wrap: wrap;
+          gap: map-get($spacing, tiny);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+@import "../../utils/styles.scss";
+
+.pill-container {
+  border-radius: 20px;
+  border: solid 1px transparent;
+  background-color: map-get($color, accent1);
+  color: map-get($color, accent2);
+  font-size: map-get($text-size, body);
+  padding: map-get($spacing, extratiny) map-get($spacing, xsmall);
+
+  &.active {
+    color: map-get($color, primary);
+    border-color: map-get($color, primary);
+    background-color: map-get($color, light);
+  }
+
+  @media (max-width: 390px) {
+    font-size: map-get($text-size, caption) !important;
+  }
+}
