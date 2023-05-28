@@ -1,11 +1,6 @@
 import "./style.scss";
-import { useEffect } from "react";
 
 function SearchPage() {
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    console.log("mantap");
-  }, []);
   return (
     <div className="search-page-content">
       <div className="search-page-history">

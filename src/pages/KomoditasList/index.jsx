@@ -1,5 +1,5 @@
 import "./style.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import KomoditasCard, {
   KomoditasCardSkeleton,
@@ -8,16 +8,45 @@ import Search from "../../common/Search";
 
 import { ReactComponent as PlusIcon } from "../../assets/svgs/plus.svg";
 import { getProductList } from "../../service";
-import { Outlet } from "react-router-dom";
+
+import { Outlet, useSearchParams, useLocation } from "react-router-dom";
 
 function KomoditasList() {
-  const [producs, setProducts] = useState([]);
+  const [param] = useSearchParams();
+  const location = useLocation();
+  const querySearch = useMemo(() => param.get("q"), [param]);
+
   const [query, setQuery] = useState({
     limit: 10,
     offset: 0,
+    search: querySearch ? { komoditas: querySearch.toUpperCase() } : undefined,
   });
-  const [isReachEnd, setIsReachEnd] = useState(false);
+
+  const [producs, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isReachEnd, setIsReachEnd] = useState(false);
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      setLoading(true);
+      setProducts([]);
+      if (querySearch) {
+        setQuery((prev) => ({
+          ...prev,
+          offset: 0,
+          search: { komoditas: querySearch.toUpperCase() },
+        }));
+        setIsReachEnd(false);
+      } else {
+        setQuery((prev) => ({
+          ...prev,
+          offset: 0,
+          search: undefined,
+        }));
+        setIsReachEnd(false);
+      }
+    }
+  }, [querySearch, location]);
 
   useEffect(() => {
     setLoading(true);
@@ -27,7 +56,11 @@ function KomoditasList() {
         if (!response.length) {
           setIsReachEnd(true);
         }
-        setProducts((prevProducts) => [...prevProducts, ...response]);
+        if (!query.offset) {
+          setProducts([...response]);
+        } else {
+          setProducts((prevProducts) => [...prevProducts, ...response]);
+        }
       } catch (error) {
         console.log(error);
       }

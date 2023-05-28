@@ -5,12 +5,16 @@
   z-index: 5;
   width: 100vw;
   height: 100%;
-  position: absolute;
-  padding: map-get($spacing, base);
-  padding-top: calc(map-get($spacing, xlarge) * 1.75);
+  position: fixed;
   background-color: map-get($color, light);
+  display: flex;
+  justify-content: center;
 
   .search-page-history {
+    width: 100%;
+    max-width: map-get($default-width, max-mobile);
+    padding: map-get($spacing, base);
+    padding-top: calc(map-get($spacing, xlarge) * 1.75);
     .history-title {
       font-size: map-get($text-size, title);
       font-weight: 700;
