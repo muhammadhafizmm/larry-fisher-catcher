@@ -1,13 +1,35 @@
+import { useMemo } from "react";
 import Pill from "../../common/Pill";
 import "./style.scss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { constructSearchQuery } from "../KomoditasList/helper";
 
 function SearchPage() {
   const navigate = useNavigate();
+  const [param] = useSearchParams();
+  const querySearch = useMemo(() => {
+    const tempQuerySearch = {
+      ...(param.get("komoditas") && {
+        komoditas: param.get("komoditas").toUpperCase(),
+      }),
+      ...(param.get("province") && {
+        area_provinsi: param.get("province").toUpperCase(),
+      }),
+      ...(param.get("city") && { area_kota: param.get("city").toUpperCase() }),
+      ...(param.get("size") && { size: param.get("size") }),
+    };
+    return tempQuerySearch;
+  }, [param]);
+
   function handleSelectHistory(value) {
     navigate({
       pathname: "/",
-      search: `?q=${value}`,
+      search: constructSearchQuery(
+        value,
+        querySearch.area_provinsi,
+        querySearch.area_kota,
+        querySearch.size
+      ),
     });
   }
 

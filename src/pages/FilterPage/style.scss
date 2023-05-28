@@ -29,10 +29,21 @@
     max-width: map-get($default-width, max-mobile);
     .filter-page-content {
       margin-bottom: map-get($spacing, base);
-      .filter-title {
-        font-weight: 700;
-        font-size: map-get($text-size, h6);
+      .filter-title-wrapper {
+        display: flex;
+        justify-content: space-between;
+        .filter-title {
+          font-weight: 700;
+          font-size: map-get($text-size, h6);
+        }
+        .filter-reset {
+          cursor: pointer;
+          font-weight: 700;
+          font-size: map-get($text-size, title);
+          color: map-get($color, primary);
+        }
       }
+
       .filter-item {
         margin-top: map-get($spacing, xsmall);
         .filter-label-wrapper {

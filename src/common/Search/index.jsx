@@ -6,42 +6,91 @@ import { ReactComponent as FilterIcon } from "../../assets/svgs/filter.svg";
 import { ReactComponent as ArrowBackIcon } from "../../assets/svgs/arrow-back.svg";
 import { ReactComponent as CrossBackIcon } from "../../assets/svgs/cross.svg";
 import { ReactComponent as AppLogo } from "../../assets/svgs/app-logo.svg";
+import { toTitleCase } from "../../utils/string";
+import { constructSearchQuery } from "../../pages/KomoditasList/helper";
 
 function Search() {
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState(false);
   const [param] = useSearchParams();
-  const querySearch = useMemo(() => param.get("q"), [param]);
 
-  const [searchQuery, setSearchQuery] = useState(querySearch || "");
+  const querySearch = useMemo(() => {
+    const tempQuerySearch = {
+      ...(param.get("komoditas") && {
+        komoditas: toTitleCase(param.get("komoditas")),
+      }),
+      ...(param.get("province") && {
+        area_provinsi: param.get("province").toUpperCase(),
+      }),
+      ...(param.get("city") && { area_kota: param.get("city").toUpperCase() }),
+      ...(param.get("size") && { size: param.get("size") }),
+    };
+    return tempQuerySearch;
+  }, [param]);
+
+  const [searchQuery, setSearchQuery] = useState(querySearch.komoditas || "");
   const editableInput = useRef(null);
 
   function handleOnClick() {
-    navigate("/search");
+    navigate({
+      pathname: "/search",
+      search: constructSearchQuery(
+        querySearch.komoditas,
+        querySearch.area_provinsi,
+        querySearch.area_kota,
+        querySearch.size
+      ),
+    });
   }
 
   function handleBack() {
-    navigate("/");
+    navigate({
+      pathname: "/",
+      search: constructSearchQuery(
+        querySearch.komoditas,
+        querySearch.area_provinsi,
+        querySearch.area_kota,
+        querySearch.size
+      ),
+    });
   }
 
   function handleClearInput() {
     setSearchQuery("");
     navigate({
       pathname: "/",
-      search: `?q=`,
+      search: constructSearchQuery(
+        undefined,
+        querySearch.area_provinsi,
+        querySearch.area_kota,
+        querySearch.size
+      ),
     });
   }
 
   function handleOpenFilter() {
-    navigate("/filter");
+    navigate({
+      pathname: "/filter",
+      search: constructSearchQuery(
+        querySearch.komoditas,
+        querySearch.area_provinsi,
+        querySearch.area_kota,
+        querySearch.size
+      ),
+    });
   }
 
   function handleOnSubmitWithEnter(event) {
     if (event.key === "Enter") {
       navigate({
         pathname: "/",
-        search: `?q=${searchQuery}`,
+        search: constructSearchQuery(
+          searchQuery,
+          querySearch.area_provinsi,
+          querySearch.area_kota,
+          querySearch.size
+        ),
       });
     }
   }
@@ -70,10 +119,10 @@ function Search() {
   }, [editableInput, active]);
 
   useEffect(() => {
-    if (querySearch) {
-      setSearchQuery(querySearch);
+    if (querySearch.komoditas) {
+      setSearchQuery(querySearch.komoditas);
     }
-  }, [querySearch]);
+  }, [querySearch.komoditas]);
 
   return (
     <div className="main-header">
@@ -81,6 +130,8 @@ function Search() {
         <div className="filter">
           {!active ? (
             <div onClick={handleOpenFilter}>
+              {((querySearch.area_kota && querySearch.area_provinsi) ||
+                querySearch.size) && <span className="filter-apply"></span>}
               <FilterIcon />
             </div>
           ) : (

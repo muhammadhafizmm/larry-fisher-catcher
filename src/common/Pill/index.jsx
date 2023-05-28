@@ -12,4 +12,8 @@ function Pill({ children, handleOnClick, isActive }) {
   );
 }
 
+export function PillSkeleton({ width }) {
+  return <span className="pill-skeleton" style={{ width }}></span>;
+}
+
 export default memo(Pill);
