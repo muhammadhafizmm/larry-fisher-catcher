@@ -54,7 +54,7 @@
       }
 
       .filter-page-content {
-        margin-bottom: map-get($spacing, base);
+        padding-bottom: calc(map-get($spacing, xlarge) * 1.7);
         .filter-title-wrapper {
           display: flex;
           justify-content: space-between;

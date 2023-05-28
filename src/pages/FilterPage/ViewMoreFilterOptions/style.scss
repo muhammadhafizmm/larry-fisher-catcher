@@ -8,6 +8,7 @@
 .view-more-content-list {
   margin-top: map-get($spacing, xsmall);
   overflow-y: scroll;
+  padding-bottom: calc(map-get($spacing, xlarge) * 1.5);
 
   .view-more-items-wrapper {
     cursor: pointer;
