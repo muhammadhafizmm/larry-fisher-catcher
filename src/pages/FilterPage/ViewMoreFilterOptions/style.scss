@@ -10,6 +10,7 @@
   overflow-y: scroll;
 
   .view-more-items-wrapper {
+    cursor: pointer;
     padding: map-get($spacing, xsmall) map-get($spacing, small);
     border-style: solid;
     border-width: 0px;
