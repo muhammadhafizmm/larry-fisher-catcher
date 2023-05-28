@@ -2,10 +2,13 @@
 
 .bottom-sheet {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-height: 60vh;
   min-height: 20vh;
   height: fit-content;
   overflow: hidden;
-  transition: transform .7s ease-out;
+  transition: transform 0.7s ease-out;
   background: #fff;
   transform: translateY(100vh);
   padding: map-get($spacing, base);

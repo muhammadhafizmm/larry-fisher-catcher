@@ -19,6 +19,10 @@ export function formatStringDate(str, format) {
   return formattedDate;
 }
 
+export function formatObjectValueToDashCase(obj) {
+  return toTitleCase(Object.values(obj).join(" - "));
+}
+
 // Mengubah string data menjadi IDR Currency
 export function toIDRCurrency(str) {
   const number = parseInt(str.replace(/\D/g, ""));
