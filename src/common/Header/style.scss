@@ -1,0 +1,32 @@
+@import "../../utils/styles.scss";
+.header-container {
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    background-color: map-get($color, light);
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.05);
+    .header-main {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: map-get($spacing, small);
+      max-width: map-get($default-width, max-mobile);
+      padding: map-get($spacing, base) map-get($spacing, small);
+  
+      .back-button {
+        width: 34px;
+        cursor: pointer;
+        padding: 0 map-get($spacing, tiny);
+        margin-right: map-get($spacing, xsmall);
+      }
+      .label {
+        font-weight: 700;
+        font-size: map-get($text-size, title);
+      }
+    }
+  }
+  
