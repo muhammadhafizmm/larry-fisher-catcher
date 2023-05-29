@@ -16,3 +16,16 @@ export function addHistoryDataToStorage(str) {
   }
   localStorage.setItem("history-data", JSON.stringify(historyData));
 }
+
+export function constructSearchQuery(
+  komoditas,
+  area_provinsi,
+  area_kota,
+  size
+) {
+  return `?${komoditas ? `komoditas=${komoditas}&` : ""}${
+    area_provinsi && area_kota
+      ? `province=${area_provinsi}&city=${area_kota}&`
+      : ""
+  }${size ? `size=${size}` : ""}`;
+}

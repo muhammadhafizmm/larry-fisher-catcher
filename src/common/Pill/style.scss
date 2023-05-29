@@ -1,0 +1,43 @@
+@import "../../utils/styles.scss";
+
+.pill-container {
+  border-radius: 20px;
+  border: solid 1px transparent;
+  background-color: map-get($color, accent1);
+  color: map-get($color, accent2);
+  font-size: map-get($text-size, body);
+  padding: map-get($spacing, extratiny) map-get($spacing, xsmall);
+
+  &.active {
+    color: map-get($color, primary);
+    border-color: map-get($color, primary);
+    background-color: map-get($color, light);
+  }
+
+  @media (max-width: 390px) {
+    font-size: map-get($text-size, caption) !important;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: calc(-1 * map-get($default-width, max-mobile)) 0;
+  }
+  100% {
+    background-position: map-get($default-width, max-mobile) 0;
+  }
+}
+
+.pill-skeleton {
+  height: 31px;
+  border-radius: 30px;
+
+  animation-duration: 15s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: shimmer;
+  animation-timing-function: linear;
+  background: darkgray;
+  background: linear-gradient(to right, #ede9e9 30%, #ded5d5 60%, #ede9e9 90%);
+  position: relative;
+}

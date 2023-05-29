@@ -1,0 +1,25 @@
+@import "../../../utils/styles.scss";
+
+.view-more-title {
+  font-weight: 700;
+  font-size: map-get($text-size, h6);
+}
+
+.view-more-content-list {
+  margin-top: map-get($spacing, xsmall);
+  overflow-y: scroll;
+  padding-bottom: calc(map-get($spacing, xlarge) * 1.5);
+
+  .view-more-items-wrapper {
+    cursor: pointer;
+    padding: map-get($spacing, xsmall) map-get($spacing, small);
+    border-style: solid;
+    border-width: 0px;
+    border-bottom-width: 1px;
+    border-color: map-get($color, accent1);
+    .view-more-items {
+      font-weight: 500;
+      font-size: map-get($text-size, body);
+    }
+  }
+}

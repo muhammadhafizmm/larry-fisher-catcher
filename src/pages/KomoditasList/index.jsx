@@ -10,53 +10,82 @@ import { getProductList } from "../../service";
 import { ReactComponent as PlusIcon } from "../../assets/svgs/plus.svg";
 
 import { addHistoryDataToStorage } from "./helper";
-import { Outlet, useSearchParams, useLocation } from "react-router-dom";
+import {
+  Outlet,
+  useSearchParams,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 function KomoditasList() {
   const [param] = useSearchParams();
   const location = useLocation();
-  const querySearch = useMemo(() => param.get("q"), [param]);
+  const navigate = useNavigate();
+  const querySearch = useMemo(() => {
+    const tempQuerySearch = {
+      ...(param.get("komoditas") && {
+        komoditas: param.get("komoditas").toUpperCase(),
+      }),
+      ...(param.get("province") && {
+        area_provinsi: param.get("province").toUpperCase(),
+      }),
+      ...(param.get("city") && { area_kota: param.get("city").toUpperCase() }),
+      ...(param.get("size") && { size: param.get("size") }),
+    };
+    return tempQuerySearch;
+  }, [param]);
 
   const [query, setQuery] = useState({
     limit: 10,
     offset: 0,
-    search: querySearch ? { komoditas: querySearch.toUpperCase() } : undefined,
+    ...(Object.keys(querySearch).length && { search: querySearch }),
   });
 
   const [producs, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isReachEnd, setIsReachEnd] = useState(false);
 
+  function handleClickAdd() {
+    navigate("/komoditas/add");
+  }
+
   useEffect(() => {
     if (location.pathname === "/") {
       setLoading(true);
       setProducts([]);
-      if (querySearch) {
-        setQuery((prev) => ({
-          ...prev,
-          offset: 0,
-          search: { komoditas: querySearch.toUpperCase() },
-        }));
-        // register query search to history data to history data
-        addHistoryDataToStorage(querySearch);
-        setIsReachEnd(false);
-      } else {
-        setQuery((prev) => ({
-          ...prev,
-          offset: 0,
-          search: undefined,
-        }));
-        setIsReachEnd(false);
+      const tempQuerySearch = {
+        ...(querySearch.komoditas && {
+          komoditas: querySearch.komoditas.toUpperCase(),
+        }),
+        ...(querySearch.area_provinsi && {
+          area_provinsi: querySearch.area_provinsi.toUpperCase(),
+        }),
+        ...(querySearch.area_kota && {
+          area_kota: querySearch.area_kota.toUpperCase(),
+        }),
+        ...(querySearch.size && { size: querySearch.size }),
+      };
+      setQuery((prev) => ({
+        ...prev,
+        offset: 0,
+        ...(Object.keys(tempQuerySearch).length
+          ? { search: tempQuerySearch }
+          : { search: undefined }),
+      }));
+      // register query search to history data to history data
+      if (querySearch.komoditas) {
+        addHistoryDataToStorage(querySearch.komoditas);
       }
+      setIsReachEnd(false);
     }
-  }, [querySearch, location]);
+  }, [querySearch]);
 
   useEffect(() => {
     setLoading(true);
     async function fetchListData() {
       try {
         const response = await getProductList(query);
-        if (!response.length) {
+        if (!response.length || response.length < query.limit) {
           setIsReachEnd(true);
         }
         if (!query.offset) {
@@ -113,7 +142,7 @@ function KomoditasList() {
       </div>
       <div className="add-komoditas-container">
         <div className="button-wrapper">
-          <div className="button">
+          <div className="button" onClick={handleClickAdd}>
             <span>Tambah Akomodasi</span>
             <PlusIcon />
           </div>
