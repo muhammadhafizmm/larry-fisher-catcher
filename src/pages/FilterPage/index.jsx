@@ -33,7 +33,7 @@ function FilterPage() {
   const querySearch = useMemo(() => {
     const tempQuerySearch = {
       ...(param.get("komoditas") && {
-        komoditas: param.get("komoditas").toUpperCase(),
+        komoditas: param.get("komoditas"),
       }),
       ...(param.get("province") && {
         area_provinsi: param.get("province").toUpperCase(),

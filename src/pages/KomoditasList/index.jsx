@@ -10,11 +10,17 @@ import { getProductList } from "../../service";
 import { ReactComponent as PlusIcon } from "../../assets/svgs/plus.svg";
 
 import { addHistoryDataToStorage } from "./helper";
-import { Outlet, useSearchParams, useLocation } from "react-router-dom";
+import {
+  Outlet,
+  useSearchParams,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 function KomoditasList() {
   const [param] = useSearchParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const querySearch = useMemo(() => {
     const tempQuerySearch = {
       ...(param.get("komoditas") && {
@@ -38,6 +44,10 @@ function KomoditasList() {
   const [producs, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isReachEnd, setIsReachEnd] = useState(false);
+
+  function handleClickAdd() {
+    navigate("/komoditas/add");
+  }
 
   useEffect(() => {
     if (location.pathname === "/") {
@@ -132,7 +142,7 @@ function KomoditasList() {
       </div>
       <div className="add-komoditas-container">
         <div className="button-wrapper">
-          <div className="button">
+          <div className="button" onClick={handleClickAdd}>
             <span>Tambah Akomodasi</span>
             <PlusIcon />
           </div>
