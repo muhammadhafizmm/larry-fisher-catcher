@@ -1,6 +1,6 @@
 {
   "name": "larry-fish-catcher",
-  "version": "0.1.1",
+  "version": "1.1.0-beta.0",
   "private": true,
   "dependencies": {
     "json-reactform": "^0.1.14",
