@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
+      contents: write
       pull-requests: write
 
     steps:
@@ -38,8 +39,14 @@ jobs:
           VERSION=$(./scripts/get-next-prerelease.sh ${{ steps.branch-info.outputs.base }} ${{ steps.branch-info.outputs.head }} | grep "Next beta version" | awk '{print $NF}')
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
+      - name: Authenticate Git Remote
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+
       - name: Update Version in Package.json
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           chmod +x ./scripts/update-version.sh
           ./scripts/update-version.sh "${{ steps.prerelease.outputs.version }}"
 
