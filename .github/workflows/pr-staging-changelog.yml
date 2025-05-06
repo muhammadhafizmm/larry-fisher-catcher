@@ -1,0 +1,43 @@
+name: PR Staging Changelog
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - staging-experimental
+
+jobs:
+  generate-prerelease-comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Git
+        run: git fetch --tags --all
+
+      - name: Set base and head branch for diff
+        id: branch-info
+        run: |
+          echo "base=origin/${{ github.event.pull_request.base.ref }}" >> "$GITHUB_OUTPUT"
+          echo "head=origin/${{ github.event.pull_request.head.ref }}" >> "$GITHUB_OUTPUT"
+
+      - name: Extract prerelease version from output
+        id: version
+        run: |
+          chmod +x ./get-next-prerelease.sh
+          VERSION=$(./get-next-prerelease.sh  | grep "Next beta version" | awk '{print $NF}')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Generate changelog
+        run: |
+          chmod +x ./generate-changelog.sh
+          ./generate-changelog.sh "${{ steps.version.outputs.version }}" pr-comment.md ${{ steps.branch-info.outputs.head }} ${{ steps.branch-info.outputs.base }}
+
+      - name: Add comment to PR
+        uses: mshick/add-pr-comment@v2
+        with:
+          message-path: pr-comment.md
+          allow-repeats: false
