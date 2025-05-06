@@ -72,7 +72,13 @@ else
   BASE_VERSION="$CURRENT_BASE"
   # Get highest beta for this base
   LAST_BETA=$(echo "$TAGS" | grep "^${BASE_VERSION}-beta\." | grep -oE 'beta\.[0-9]+' | cut -d'.' -f2 | sort -nr | head -n1)
-  BETA=$((LAST_BETA + 1))
+
+  if [ -n "$LAST_BETA" ]; then
+    BETA=$((LAST_BETA + 1))
+  else
+    BETA=0
+  fi
+
   echo "🆕 Starting or continuing beta from: $BASE_VERSION (next beta.$BETA)"
 fi
 
