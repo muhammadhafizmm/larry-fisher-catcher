@@ -14,19 +14,18 @@ if [ -z "$TARGET_BRANCH" ]; then
   exit 1
 fi
 
+CURRENT_VERSION=$(jq -r '.version' package.json)
+
+if [ "$CURRENT_VERSION" == "$VERSION" ]; then
+  echo "⚠️  Version $VERSION is already current. Skipping bump but continuing."
+  exit 0
+fi
+
 echo "🔧 Updating version to $VERSION"
-
-# Update version in package.json (and package-lock.json if exists)
 npm version "$VERSION" --no-git-tag-version
-
-# Commit and push changes
-git config user.name "github-actions[bot]"
-git config user.email "github-actions[bot]@users.noreply.github.com"
 
 git add package.json
 [ -f "package-lock.json" ] && git add package-lock.json
 
 git commit -m "bot: bump version to $VERSION"
-
-# Push to the specified branch
-git push origin HEAD:"$TARGET_BRANCH"
+git push origin HEAD:$TARGET_BRANCH

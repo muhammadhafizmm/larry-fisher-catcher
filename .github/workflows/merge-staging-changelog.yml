@@ -48,7 +48,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           chmod +x ./scripts/update-version.sh
-          ./scripts/update-version.sh "${{ steps.prerelease.outputs.version }}" ${{ steps.branch-info.outputs.base }}
+          ./scripts/update-version.sh "${{ steps.prerelease.outputs.version }}" ${{ steps.branch-info.outputs.base }} || true
 
       - name: Generate Changelog
         run: |
