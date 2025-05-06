@@ -70,9 +70,9 @@ while IFS= read -r COMMIT_LINE; do
 
   # Final line with hash or GitHub link
   if [ -n "$REPO_URL" ]; then
-    LINE="- ${SUBJECT}\n  [\`${SHORT}\`](${REPO_URL}/commit/${SHORT})"
+    LINE="- ${SUBJECT} [\(${SHORT}\)](${REPO_URL}/commit/${SHORT})"
   else
-    LINE="- ${SUBJECT}\n  \`${SHORT}\`"
+    LINE="- ${SUBJECT} \(${SHORT}\)"
   fi
 
   # Group
