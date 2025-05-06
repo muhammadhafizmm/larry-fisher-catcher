@@ -39,34 +39,9 @@ jobs:
           VERSION=$(./scripts/get-next-prerelease.sh ${{ steps.branch-info.outputs.base }} ${{ steps.branch-info.outputs.head }} | grep "Next beta version" | awk '{print $NF}')
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Authenticate Git Remote
-        run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-
-      - name: Update Version in Package.json
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          chmod +x ./scripts/update-version.sh
-          ./scripts/update-version.sh "${{ steps.prerelease.outputs.version }}" ${{ steps.branch-info.outputs.base }} || true
-
-      - name: Generate Changelog
-        run: |
-          chmod +x ./scripts/generate-changelog.sh
-          ./scripts/generate-changelog.sh "${{ steps.prerelease.outputs.version }}" "${{ steps.prerelease.outputs.version }}-changelog.md" ${{ steps.branch-info.outputs.base }} ${{ steps.branch-info.outputs.head }}
-
       - name: Create Git Tag
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag "${{ steps.prerelease.outputs.version }}"
           git push origin "${{ steps.prerelease.outputs.version }}"
-
-      - name: Publish GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ steps.prerelease.outputs.version }}
-          name: Release ${{ steps.prerelease.outputs.version }}
-          body_path: "${{ steps.prerelease.outputs.version }}-changelog.md"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
