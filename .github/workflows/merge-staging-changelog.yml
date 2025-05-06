@@ -48,12 +48,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           chmod +x ./scripts/update-version.sh
-          ./scripts/update-version.sh "${{ steps.prerelease.outputs.version }}"
+          ./scripts/update-version.sh "${{ steps.prerelease.outputs.version }}" ${{ steps.branch-info.outputs.base }}
 
       - name: Generate Changelog
         run: |
-          chmod +x ./generate-changelog.sh
-          ./generate-changelog.sh "${{ steps.prerelease.outputs.version }}" "${{ steps.prerelease.outputs.version }}-changelog.md" ${{ steps.branch-info.outputs.base }} ${{ steps.branch-info.outputs.head }}
+          chmod +x ./scripts/generate-changelog.sh
+          ./scripts/generate-changelog.sh "${{ steps.prerelease.outputs.version }}" "${{ steps.prerelease.outputs.version }}-changelog.md" ${{ steps.branch-info.outputs.base }} ${{ steps.branch-info.outputs.head }}
 
       - name: Create Git Tag
         run: |
