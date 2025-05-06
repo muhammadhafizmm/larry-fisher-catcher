@@ -55,21 +55,16 @@ esac
 BASE_VERSION="v$MAJOR.$MINOR.$PATCH"
 echo "🎯 Target base version: $BASE_VERSION"
 
-# Check if there is already a beta for the current base version
-EXISTING_BETA=$(echo "$TAGS" | grep "^${BASE_VERSION}-beta\." | tail -n1)
+# Get all beta tags for base version and find highest number
+HIGHEST_BETA=$(echo "$TAGS" | grep "^${BASE_VERSION}-beta\." | grep -oE 'beta\.[0-9]+' | cut -d'.' -f2 | sort -nr | head -n1)
 
-if [ -n "$EXISTING_BETA" ]; then
-  if git merge-base --is-ancestor "$EXISTING_BETA" "$TO_BRANCH"; then
-    BETA=$(echo "$EXISTING_BETA" | grep -oE 'beta\.[0-9]+' | cut -d'.' -f2)
-    BETA=$((BETA + 1))
-    NEXT_BETA="${BASE_VERSION}-beta.${BETA}"
-    echo "🚀 Continuing beta series: $NEXT_BETA"
-    echo "BETA_VERSION=$NEXT_BETA"
-    exit 0
-  fi
+if [ -n "$HIGHEST_BETA" ]; then
+  BETA=$((HIGHEST_BETA + 1))
+  NEXT_BETA="${BASE_VERSION}-beta.${BETA}"
+  echo "🚀 Continuing beta series: $NEXT_BETA"
+else
+  NEXT_BETA="${BASE_VERSION}-beta.0"
+  echo "🚀 Starting new beta series: $NEXT_BETA"
 fi
 
-# No beta tag yet, or old one is outdated
-NEXT_BETA="${BASE_VERSION}-beta.0"
-echo "🚀 Starting new beta series: $NEXT_BETA"
 echo "BETA_VERSION=$NEXT_BETA"
