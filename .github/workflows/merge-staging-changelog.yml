@@ -22,7 +22,7 @@ jobs:
       - name: Set base and head branch for diff
         id: branch-info
         run: |
-          echo "base=origin/${{ github.ref }}" >> "$GITHUB_OUTPUT"
+          echo "base=origin/${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
           echo "head=${{ github.sha }}" >> "$GITHUB_OUTPUT"
 
       - name: Extract prerelease version from output
