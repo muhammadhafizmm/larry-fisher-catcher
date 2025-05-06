@@ -23,7 +23,7 @@ jobs:
         id: branch-info
         run: |
           echo "base=origin/${{ github.ref }}" >> "$GITHUB_OUTPUT"
-          echo "head=origin/${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          echo "head=${{ github.sha }}" >> "$GITHUB_OUTPUT"
 
       - name: Extract prerelease version from output
         id: prerelease
