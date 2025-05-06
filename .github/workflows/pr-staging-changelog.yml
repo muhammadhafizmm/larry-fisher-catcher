@@ -28,7 +28,7 @@ jobs:
         id: version
         run: |
           chmod +x ./scripts/get-next-prerelease.sh
-          VERSION=$(./scripts/get-next-prerelease.sh  | grep "Next beta version" | awk '{print $NF}')
+          VERSION=$(./scripts/get-next-prerelease.sh ${{ steps.branch-info.outputs.head }} ${{ steps.branch-info.outputs.base }}  | grep "Next beta version" | awk '{print $NF}')
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Generate changelog
