@@ -59,18 +59,17 @@ echo "🎯 Target base version: $BASE_VERSION"
 EXISTING_BETA=$(echo "$TAGS" | grep "^${BASE_VERSION}-beta\." | tail -n1)
 
 if [ -n "$EXISTING_BETA" ]; then
-  # Check if latest beta is ancestor of TO_BRANCH
   if git merge-base --is-ancestor "$EXISTING_BETA" "$TO_BRANCH"; then
     BETA=$(echo "$EXISTING_BETA" | grep -oE 'beta\.[0-9]+' | cut -d'.' -f2)
     BETA=$((BETA + 1))
     NEXT_BETA="${BASE_VERSION}-beta.${BETA}"
-    echo "🚀 Continuing beta series"
+    echo "🚀 Continuing beta series: $NEXT_BETA"
     echo "BETA_VERSION=$NEXT_BETA"
     exit 0
   fi
 fi
 
-# No existing beta or it's outdated — start from 0
+# No beta tag yet, or old one is outdated
 NEXT_BETA="${BASE_VERSION}-beta.0"
-echo "🚀 Starting new beta series"
+echo "🚀 Starting new beta series: $NEXT_BETA"
 echo "BETA_VERSION=$NEXT_BETA"
