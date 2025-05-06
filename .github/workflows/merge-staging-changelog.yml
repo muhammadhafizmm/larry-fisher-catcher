@@ -40,15 +40,14 @@ jobs:
       - name: Generate Changelog
         run: |
           chmod +x ./generate-changelog.sh
-          VERSION="${{ steps.prerelease.outputs.version }}"
-          ./generate-changelog.sh "$VERSION" "${VERSION}-changelog.md" ${{ steps.branch-info.outputs.base }} ${{ steps.branch-info.outputs.head }}
+          ./generate-changelog.sh "${{ steps.prerelease.outputs.version }}" "${{ steps.prerelease.outputs.version }}-changelog.md" ${{ steps.branch-info.outputs.base }} ${{ steps.branch-info.outputs.head }}
 
-          - name: Create Git Tag
-          run: |
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git tag "${{ steps.prerelease.outputs.version }}"
-            git push origin "${{ steps.prerelease.outputs.version }}"
+      - name: Create Git Tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "${{ steps.prerelease.outputs.version }}"
+          git push origin "${{ steps.prerelease.outputs.version }}"
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v1
