@@ -6,22 +6,22 @@ TO_BRANCH="${2:-HEAD}"
 
 echo "🔍 Calculating prerelease from $FROM_BRANCH to $TO_BRANCH"
 
-# Get all tags
+# Fetch tags
+git fetch --tags
+
+# Get all tags (sorted by date)
 TAGS=$(git tag --sort=-creatordate)
 
 # Get latest release tag (non-prerelease)
-LATEST_RELEASE=$(echo "$TAGS" | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n1)
-
-if [ -z "$LATEST_RELEASE" ]; then
-  LATEST_RELEASE="v1.0.0"
-fi
+LATEST_RELEASE=$(echo "$TAGS" | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | tail -n1)
+[ -z "$LATEST_RELEASE" ] && LATEST_RELEASE="v1.0.0"
 
 echo "🔖 Latest release tag: $LATEST_RELEASE"
 
-# Get commit messages from FROM..TO (no merge commits, squash commits only)
+# Get commit messages from FROM..TO (no merge commits)
 COMMITS=$(git log "$FROM_BRANCH..$TO_BRANCH" --no-merges --pretty=format:"%s")
 
-# Determine semver type
+# Determine semver bump
 SEMVER_TYPE="patch"
 if echo "$COMMITS" | grep -qE 'BREAKING CHANGE|!:'; then
   SEMVER_TYPE="major"
@@ -33,8 +33,10 @@ fi
 
 echo "🔧 Detected semver bump: $SEMVER_TYPE"
 
-# Bump version
-IFS='.' read -r MAJOR MINOR PATCH <<< "$(echo "$LATEST_RELEASE" | sed 's/v//')"
+# Parse version
+IFS='.' read -r MAJOR MINOR PATCH <<< "$(echo "$LATEST_RELEASE" | sed 's/^v//')"
+
+# Determine target base version
 case $SEMVER_TYPE in
   major)
     MAJOR=$((MAJOR + 1))
@@ -53,15 +55,20 @@ esac
 BASE_VERSION="v$MAJOR.$MINOR.$PATCH"
 echo "🎯 Target base version: $BASE_VERSION"
 
-# Get latest beta tag for this version
-LATEST_BETA=$(echo "$TAGS" | grep "^${BASE_VERSION}-beta\." | head -n1)
+# Check if there is already a beta for the current base version
+EXISTING_BETA=$(echo "$TAGS" | grep "^${BASE_VERSION}-beta\." | tail -n1)
 
-if [ -z "$LATEST_BETA" ]; then
-  BETA=0
-else
-  BETA=$(echo "$LATEST_BETA" | grep -oE 'beta\.[0-9]+' | cut -d'.' -f2)
-  BETA=$((BETA + 1))
+if [ -n "$EXISTING_BETA" ]; then
+  # Check if latest beta is ancestor of TO_BRANCH
+  if git merge-base --is-ancestor "$EXISTING_BETA" "$TO_BRANCH"; then
+    BETA=$(echo "$EXISTING_BETA" | grep -oE 'beta\.[0-9]+' | cut -d'.' -f2)
+    BETA=$((BETA + 1))
+    NEXT_BETA="${BASE_VERSION}-beta.${BETA}"
+    echo "🚀 Continuing beta series: $NEXT_BETA"
+    exit 0
+  fi
 fi
 
-NEXT_BETA="${BASE_VERSION}-beta.${BETA}"
-echo "🚀 Next beta version: $NEXT_BETA"
+# No existing beta or it's outdated — start from 0
+NEXT_BETA="${BASE_VERSION}-beta.0"
+echo "🚀 Starting new beta series: $NEXT_BETA"
