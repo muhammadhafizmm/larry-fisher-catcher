@@ -26,7 +26,7 @@ DELIM=$'\x1e' # ASCII Record Separator
 GIT_REMOTE=$(git remote get-url origin)
 if [[ "$GIT_REMOTE" =~ ^git@github.com:(.*)\.git$ ]]; then
   REPO_URL="https://github.com/${BASH_REMATCH[1]}"
-elif [[ "$GIT_REMOTE" =~ ^https://github.com/(.*)\.git$ ]]; then
+elif [[ "$GIT_REMOTE" =~ ^https://github.com/(.*?)(\.git)?$ ]]; then
   REPO_URL="https://github.com/${BASH_REMATCH[1]}"
 else
   echo "⚠️  Unable to parse GitHub repository URL from remote: $GIT_REMOTE"
