@@ -36,7 +36,7 @@ jobs:
         id: prerelease
         run: |
           chmod +x ./scripts/get-next-prerelease.sh
-          VERSION=$(./scripts/get-next-prerelease.sh ${{ steps.branch-info.outputs.base }} ${{ steps.branch-info.outputs.head }} | grep "Next beta version" | awk '{print $NF}')
+          VERSION=$(./scripts/get-next-prerelease.sh ${{ steps.branch-info.outputs.base }} ${{ steps.branch-info.outputs.head }} | grep "BETA_VERSION" | awk '{print $NF}')
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Create Git Tag

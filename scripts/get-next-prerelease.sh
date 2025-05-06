@@ -64,11 +64,13 @@ if [ -n "$EXISTING_BETA" ]; then
     BETA=$(echo "$EXISTING_BETA" | grep -oE 'beta\.[0-9]+' | cut -d'.' -f2)
     BETA=$((BETA + 1))
     NEXT_BETA="${BASE_VERSION}-beta.${BETA}"
-    echo "🚀 Continuing beta series: $NEXT_BETA"
+    echo "🚀 Continuing beta series"
+    echo "BETA_VERSION=$NEXT_BETA"
     exit 0
   fi
 fi
 
 # No existing beta or it's outdated — start from 0
 NEXT_BETA="${BASE_VERSION}-beta.0"
-echo "🚀 Starting new beta series: $NEXT_BETA"
+echo "🚀 Starting new beta series"
+echo "BETA_VERSION=$NEXT_BETA"
