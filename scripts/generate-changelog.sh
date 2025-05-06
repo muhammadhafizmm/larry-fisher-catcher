@@ -92,9 +92,9 @@ done <<< "$COMMITS"
 # Build markdown
 OUT="## $VERSION ($TODAY)"$'\n\n'
 [ -n "$MAJOR" ] && OUT+="### 🚨 Breaking Changes"$'\n'"$MAJOR"$'\n'
-[ -n "$FEAT" ] && OUT+="### ✨ Feat"$'\n'"$FEAT"$'\n'
-[ -n "$FIX" ] && OUT+="### 🐛 Fix"$'\n'"$FIX"$'\n'
-[ -n "$INFRA" ] && OUT+="### 🔧 Infra"$'\n'"$INFRA"$'\n'
+[ -n "$FEAT" ] && OUT+="### ✨ Feature"$'\n'"$FEAT"$'\n'
+[ -n "$FIX" ] && OUT+="### 🐛 Bug Fix"$'\n'"$FIX"$'\n'
+[ -n "$INFRA" ] && OUT+="### 🔧 Infra Change"$'\n'"$INFRA"$'\n'
 [ -n "$OTHER" ] && OUT+="### 🗃 Other"$'\n'"$OTHER"$'\n'
 
 OUT=$(echo -e "$OUT" | awk 'BEGIN{RS="";ORS="\n\n"} {gsub(/\n+$/, ""); print}')
