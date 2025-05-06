@@ -27,14 +27,14 @@ jobs:
       - name: Extract prerelease version from output
         id: version
         run: |
-          chmod +x ./get-next-prerelease.sh
-          VERSION=$(./get-next-prerelease.sh  | grep "Next beta version" | awk '{print $NF}')
+          chmod +x ./scripts/get-next-prerelease.sh
+          VERSION=$(./scripts/get-next-prerelease.sh  | grep "Next beta version" | awk '{print $NF}')
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Generate changelog
         run: |
-          chmod +x ./generate-changelog.sh
-          ./generate-changelog.sh "${{ steps.version.outputs.version }}" pr-comment.md ${{ steps.branch-info.outputs.head }} ${{ steps.branch-info.outputs.base }}
+          chmod +x ./scripts/generate-changelog.sh
+          ./scripts/generate-changelog.sh "${{ steps.version.outputs.version }}" pr-comment.md ${{ steps.branch-info.outputs.head }} ${{ steps.branch-info.outputs.base }}
 
       - name: Add comment to PR
         uses: mshick/add-pr-comment@v2
