@@ -1,20 +1,26 @@
 #!/usr/bin/env bash
 set -e
 
-VERSION="$1"
+VERSION=$1
 
 if [ -z "$VERSION" ]; then
-  echo "❌ Error: Version is required"
+  echo "❌ Error: VERSION argument is required"
   exit 1
 fi
 
-# Strip "v" if present (e.g., v1.2.3 -> 1.2.3)
-CLEAN_VERSION=$(echo "$VERSION" | sed 's/^v//')
+echo "🔧 Updating version to $VERSION"
 
-echo "🔧 Updating package.json version to $CLEAN_VERSION"
+# Update version in package.json (and package-lock.json if exists)
+npm version "$VERSION" --no-git-tag-version
 
-# Use jq to safely update package.json version
-tmp_file=$(mktemp)
-jq --arg ver "$CLEAN_VERSION" '.version = $ver' package.json > "$tmp_file" && mv "$tmp_file" package.json
+# Commit and push changes
+git config user.name "github-actions[bot]"
+git config user.email "github-actions[bot]@users.noreply.github.com"
 
-echo "✅ package.json updated to version $CLEAN_VERSION"
+git add package.json
+[ -f "package-lock.json" ] && git add package-lock.json
+
+git commit -m "[infra] bump version to $VERSION"
+
+# Push to origin/staging-experimental
+git push origin HEAD:staging-experimental
